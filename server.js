@@ -9,15 +9,15 @@ dotenv.config();
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Trust proxy (REQUIRED for cookies on Render/Vercel)
+app.set("trust proxy", 1);
+
 // 1) Middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // CORS must be implemented in server.js, not in auth.middleware.js.
-// REQUIRED for cookies in production
-app.set("trust proxy", 1);
-// SIMPLE CORS (nothing extra)
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
