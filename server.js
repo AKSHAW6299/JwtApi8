@@ -5,9 +5,9 @@ import UserRoutes from './routes/auth.routes.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
-const app = express()
-const port = process.env.port || 3000
 dotenv.config();
+const app = express()
+const PORT = process.env.PORT || 3000
 
 // 1) Middlewares
 app.use(express.json())
@@ -33,6 +33,6 @@ connectToDB();
 // 3) To use product routes we have to MOUNT the router file.
 app.use('/api/auth', UserRoutes)
 
-app.listen(port, () => {
-    console.log(`Server app listening on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`Server app listening on port ${PORT}`)
 })
