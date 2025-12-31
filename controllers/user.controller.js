@@ -25,7 +25,7 @@ export const registerUser = async (req, res) => {
     }
 
     // 3️) Create user
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password, role: "user" });   // 🔐 force role
 
     // 4️) Generate tokens (AUTO LOGIN)
     const { accessToken, refreshToken } = user.generateToken();
@@ -52,13 +52,11 @@ export const registerUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message, });
   }
 };
 
@@ -119,13 +117,11 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message, });
   }
 };
 
@@ -161,7 +157,7 @@ export const refreshAccessToken = async (req, res) => {
 
     // 3️) Generate new access token
     const accessToken = jwt.sign(
-      { _id: user._id },
+      { _id: user._id, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
@@ -226,9 +222,6 @@ export const getUserProfile = async (req, res) => {
       user: req.user,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message, });
   }
 };

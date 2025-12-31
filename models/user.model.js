@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       select: false, // hide password in queries by default
     },
+    role: {
+      type: String,
+      enum: ["user", "admin", "superadmin"],
+      default: "user",
+    },
     refreshToken: {
       type: String,
       default: "",
